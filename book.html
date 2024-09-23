@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book an Appointment - Alison's Hairdressing Academy</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+<html>
 <body>
-    <header>
-        <h1>Book an Appointment</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="reviews.html">Reviews</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h2>Book an Appointment</h2>
+    <form id="booking-form">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="date" name="date" required>
+        <select name="course" required>
+            <option value="beginner">Beginner's Course</option>
+            <option value="advanced">Advanced Techniques</option>
+        </select>
+        <button type="submit">Book Now</button>
+    </form>
+    <div id="response-message"></div>
 
-    <section id="booking">
-        <h2>Schedule Your Consultation</h2>
-        <form id="booking-form">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="date">Preferred Date:</label>
-            <input type="date" id="date" name="date" required>
-            <label for="course">Course Interest:</label>
-            <select id="course" name="course" required>
-                <option value="beginner">Beginner's Guide</option>
-                <option value="advanced">Advanced Techniques</option>
-                <option value="business">Business Management</option>
-            </select>
-            <button type="submit" class="btn">Book Now</button>
-        </form>
-    </section>
+    <script>
+        document.getElementById('booking-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
 
-    <footer>
-        <p>&copy; 2024 Alison's Hairdressing Academy. All rights reserved.</p>
-    </footer>
+            fetch('http://localhost:3000/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('response-message').innerText = data;
+                document.getElementById('booking-form').reset();
+            })
+            .catch(error => {
+                document.getElementById('response-message').innerText = 'Error: ' + error.message;
+            });
+        });
+    </script>
 </body>
 </html>

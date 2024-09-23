@@ -1,0 +1,13 @@
+alison-hairdressing-backend
+├── src
+│   └── main
+│       ├── java
+│       │   └── com
+│       │       └── alison
+│       │           └── hairdressing
+│       │               ├── Application.java
+│       │               └── controller
+│       │                   └── BookingController.java
+│       └── resources
+│           └── application.properties
+└── pom.xml
